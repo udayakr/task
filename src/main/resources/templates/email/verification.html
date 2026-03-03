@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Verify Email</title></head>
+<body style="font-family:Arial,sans-serif;background:#f4f4f4;padding:20px;">
+  <div style="max-width:600px;margin:auto;background:#fff;padding:40px;border-radius:8px;">
+    <h2 style="color:#2563eb;">Welcome to Task Manager!</h2>
+    <p>Hi <span th:text="${firstName}">User</span>,</p>
+    <p>Please verify your email address by clicking the button below:</p>
+    <a th:href="${verificationUrl}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;margin:16px 0;">Verify Email</a>
+    <p style="color:#666;font-size:12px;">This link expires in 24 hours.</p>
+  </div>
+</body>
+</html>

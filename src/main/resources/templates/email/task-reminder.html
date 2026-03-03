@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Task Due Tomorrow</title></head>
+<body style="font-family:Arial,sans-serif;background:#f4f4f4;padding:20px;">
+  <div style="max-width:600px;margin:auto;background:#fff;padding:40px;border-radius:8px;">
+    <h2 style="color:#d97706;">Task Due Tomorrow</h2>
+    <p>Hi <span th:text="${firstName}">User</span>,</p>
+    <p>The following task is due on <strong th:text="${dueDate}">Date</strong>:</p>
+    <p style="font-size:18px;font-weight:bold;" th:text="${taskTitle}">Task Title</p>
+    <a th:href="${dashboardUrl}" style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;margin:16px 0;">View My Tasks</a>
+  </div>
+</body>
+</html>

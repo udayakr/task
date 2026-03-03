@@ -1,0 +1,92 @@
+version: '3.9'
+
+networks:
+  tms-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
+  uploads-data:
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: tms-postgres
+    environment:
+      POSTGRES_DB: tms
+      POSTGRES_USER: tms
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - tms-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tms -d tms"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: tms-redis
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - tms-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tms-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/tms
+      DB_USERNAME: tms
+      DB_PASSWORD: secret
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: dGhpcy1pcy1hLXZlcnktbG9uZy1zZWNyZXQta2V5LWZvci10bXMtand0LXNpZ25pbmctMjAyNg==
+      CORS_ORIGINS: http://localhost:3000,http://frontend
+      MAIL_HOST: ${MAIL_HOST:-smtp.mailtrap.io}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      STORAGE_PATH: /uploads
+      FRONTEND_URL: http://localhost:3000
+    volumes:
+      - uploads-data:/uploads
+    ports:
+      - "8080:8080"
+    networks:
+      - tms-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tms-frontend
+    depends_on:
+      - backend
+    environment:
+      VITE_API_BASE_URL: http://localhost:8080
+    ports:
+      - "3000:80"
+    networks:
+      - tms-network
+    restart: unless-stopped
