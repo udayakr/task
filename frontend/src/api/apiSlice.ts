@@ -27,7 +27,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
       )
       if (refreshResult.data) {
         const { data } = refreshResult.data as { data: { accessToken: string; refreshToken: string; user: unknown } }
-        api.dispatch(setCredentials(data as Parameters<typeof setCredentials>[0]['payload']))
+        api.dispatch(setCredentials(data as Parameters<typeof setCredentials>[0]))
         result = await baseQuery(args, api, extraOptions)
       } else {
         api.dispatch(logout())

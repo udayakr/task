@@ -1,12 +1,8 @@
 import { useGetDashboardSummaryQuery, useGetUpcomingTasksQuery } from '@/api/dashboardApi'
 import { CardSkeleton } from '@/components/LoadingSkeleton'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { CheckCircle, Clock, AlertTriangle, ListTodo } from 'lucide-react'
 import { format } from 'date-fns'
-
-const PRIORITY_COLORS: Record<string, string> = {
-  LOW: '#94a3b8', MEDIUM: '#60a5fa', HIGH: '#f97316', CRITICAL: '#ef4444',
-}
 
 export function DashboardPage() {
   const { data: summaryData, isLoading: summaryLoading } = useGetDashboardSummaryQuery()

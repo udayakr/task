@@ -10,8 +10,6 @@ export function MyTasksPage() {
   const { data: projectsData } = useGetProjectsQuery({})
   const projects = projectsData?.data?.content ?? []
 
-  const allTasks = projects.flatMap(p => [])
-
   return (
     <div className="p-6 space-y-4">
       <h1 className="text-2xl font-bold">My Tasks</h1>

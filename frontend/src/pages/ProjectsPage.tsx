@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetProjectsQuery, useCreateProjectMutation } from '@/api/projectApi'
-import { CardSkeleton, Skeleton } from '@/components/LoadingSkeleton'
+import { CardSkeleton } from '@/components/LoadingSkeleton'
 import { EmptyState } from '@/components/EmptyState'
 import { Plus, FolderKanban } from 'lucide-react'
 import { useForm } from 'react-hook-form'
